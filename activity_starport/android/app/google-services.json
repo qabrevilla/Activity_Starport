@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "630620837597",
+    "project_id": "buildhub-training",
+    "storage_bucket": "buildhub-training.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630620837597:android:8996a5af757196775cad34",
+        "android_client_info": {
+          "package_name": "com.example.activity_starport"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKPznx7T-Asv58yReIRH28saTHpF2HOGU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
