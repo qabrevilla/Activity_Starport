@@ -7,31 +7,38 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const CircleAvatar(
-              radius: 50,
-              backgroundImage: AssetImage("assets/logo/aldwin.jpg"),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const CircleAvatar(
+                  radius: 50,
+                  backgroundImage: AssetImage("assets/logo/aldwin.jpg"),
+                ),
+                const SizedBox(height: 20),
+                _buildProfileInfo("Name", "Aldwin Joseph B. Revilla"),
+                _buildProfileInfo("Birthday", "May 13, 2002"),
+                _buildProfileInfo("Contact Number", "+639452850438"),
+                _buildProfileInfo("Email", "qabrevilla@tip.edu.ph"),
+                const SizedBox(height: 20),
+                _buildSettingsButton(Icons.edit, "Edit Profile", () {}),
+                _buildSettingsButton(Icons.lock, "Privacy Settings", () {}),
+                _buildSettingsButton(
+                    Icons.notifications, "Notifications", () {}),
+                _buildSettingsButton(Icons.logout, "Logout", () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SplashScreen()),
+                  );
+                }),
+              ],
             ),
-            const SizedBox(height: 20),
-            _buildProfileInfo("Name", "Aldwin Joseph B. Revilla"),
-            _buildProfileInfo("Birthday", "May 13, 2002"),
-            _buildProfileInfo("Contact Number", "+639452850438"),
-            _buildProfileInfo("Email", "qabrevilla@tip.edu.ph"),
-            const SizedBox(height: 20),
-            _buildSettingsButton(Icons.edit, "Edit Profile", () {}),
-            _buildSettingsButton(Icons.lock, "Privacy Settings", () {}),
-            _buildSettingsButton(Icons.notifications, "Notifications", () {}),
-            _buildSettingsButton(Icons.logout, "Logout", () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const SplashScreen()),
-              );
-            }),
-          ],
+          ),
         ),
       ),
     );
