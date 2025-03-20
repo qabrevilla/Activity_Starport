@@ -14,7 +14,7 @@ class ProfileScreen extends StatelessWidget {
           children: [
             const CircleAvatar(
               radius: 50,
-              backgroundImage: AssetImage("assets/images/profile.jpg"),
+              backgroundImage: AssetImage("assets/logo/aldwin.jpg"),
             ),
             const SizedBox(height: 20),
             _buildProfileInfo("Name", "Aldwin Joseph B. Revilla"),
