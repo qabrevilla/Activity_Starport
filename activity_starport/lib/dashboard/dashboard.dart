@@ -61,11 +61,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             _selectedIndex = index;
           });
         },
-        children: const [
-          DashboardContent(),
-          ExploreScreen(),
-          ProfileScreen(),
-        ],
+        children: const [DashboardContent(), ExploreScreen(), ProfileScreen()],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
@@ -98,10 +94,17 @@ class DashboardContent extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Welcome to Sunspire Tours PH",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            Column(
+              children: [
+                Image.asset(
+                  'assets/logo/SunspireLogo.png',
+                ),
+              ],
             ),
+            // const Text(
+            //   "Welcome to Sunspire Tours PH",
+            //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            // ),
             const SizedBox(height: 10),
             StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
@@ -151,63 +154,109 @@ class DashboardContent extends StatelessWidget {
     );
   }
 
+  //New image backgorund UI design
   Widget _buildBookingItem(BuildContext context, String docId, String location,
       String date, String time, String bookingDate, String bookingTime) {
+    // Retrieve the image corresponding to the booking location
+    String? imagePath;
+    for (var spot in ExploreScreen().touristSpots) {
+      if (spot["name"] == location) {
+        imagePath = spot["image"];
+        break;
+      }
+    }
+
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
       elevation: 3,
       margin: const EdgeInsets.symmetric(vertical: 8),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        leading:
-            const Icon(Icons.location_on, color: Colors.redAccent, size: 30),
-        title: Text(
-          location,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-        ),
-        subtitle: Text(
-          "Booked on: $date at $time\nScheduled Date: $bookingDate at $bookingTime",
-          style: TextStyle(
-            color: Colors.grey[700],
-            fontSize: 14,
-          ),
-        ),
-        trailing: PopupMenuButton<String>(
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          onSelected: (value) {
-            if (value == 'delete') {
-              _deleteBooking(docId);
-            }
-          },
-          itemBuilder: (BuildContext context) => [
-            PopupMenuItem(
-              value: 'delete',
-              child: Row(
-                children: [
-                  Icon(Icons.delete, color: Colors.redAccent, size: 20),
-                  SizedBox(width: 10),
-                  Text(
-                    "Delete",
-                    style: TextStyle(
-                      color: Colors.redAccent,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
+      child: Stack(
+        children: [
+          // Background Image (Use the found image, else use a placeholder)
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Image.asset(
+              imagePath ??
+                  "assets/images/default.jpg", // Provide a fallback image
+              height: 150,
+              width: double.infinity,
+              fit: BoxFit.cover,
             ),
-          ],
-          icon: const Icon(Icons.more_vert, color: Colors.grey),
-        ),
+          ),
+          // Overlay for readability
+          Container(
+            height: 150,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: Colors.black.withOpacity(0.4),
+            ),
+          ),
+          // Booking Details
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  location,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  "Booked on: $date at $time",
+                  style: TextStyle(
+                      color: Colors.white.withOpacity(0.9), fontSize: 14),
+                ),
+                Text(
+                  "Scheduled: $bookingDate at $bookingTime",
+                  style: TextStyle(
+                      color: Colors.white.withOpacity(0.9), fontSize: 14),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            right: 10,
+            top: 10,
+            child: PopupMenuButton<String>(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              onSelected: (value) {
+                if (value == 'delete') {
+                  _deleteBooking(docId);
+                }
+              },
+              itemBuilder: (BuildContext context) => [
+                PopupMenuItem(
+                  value: 'delete',
+                  child: Row(
+                    children: const [
+                      Icon(Icons.delete, color: Colors.redAccent, size: 20),
+                      SizedBox(width: 10),
+                      Text(
+                        "Delete",
+                        style: TextStyle(
+                          color: Colors.redAccent,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+              icon: const Icon(Icons.more_vert, color: Colors.white),
+            ),
+          ),
+        ],
       ),
     );
   }

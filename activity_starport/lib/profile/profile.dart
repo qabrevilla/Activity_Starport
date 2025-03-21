@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '/starting_screen/splash_screen.dart';
+import '/profile/edit_profile.dart';
+import '/profile/privacy_settings.dart';
+import '/profile/notification.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -21,14 +24,31 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 _buildProfileInfo("Name", "Aldwin Joseph B. Revilla"),
-                _buildProfileInfo("Birthday", "May 13, 2002"),
+                _buildProfileInfo("Account ID", "05132002"),
                 _buildProfileInfo("Contact Number", "+639452850438"),
                 _buildProfileInfo("Email", "qabrevilla@tip.edu.ph"),
                 const SizedBox(height: 20),
-                _buildSettingsButton(Icons.edit, "Edit Profile", () {}),
-                _buildSettingsButton(Icons.lock, "Privacy Settings", () {}),
-                _buildSettingsButton(
-                    Icons.notifications, "Notifications", () {}),
+                _buildSettingsButton(Icons.edit, "Edit Profile", () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const EditProfileScreen()),
+                  );
+                }),
+                _buildSettingsButton(Icons.lock, "Privacy Settings", () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const PrivacySettingsScreen()),
+                  );
+                }),
+                _buildSettingsButton(Icons.notifications, "Notifications", () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const NotificationScreen()),
+                  );
+                }),
                 _buildSettingsButton(Icons.logout, "Logout", () {
                   Navigator.pushReplacement(
                     context,
